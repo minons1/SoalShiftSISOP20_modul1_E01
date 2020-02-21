@@ -16,7 +16,10 @@ Whits memohon kepada kalian yang sudah jago mengolah data untuk mengerjakan
 laporan tersebut.
 *Gunakan Awk dan Command pendukung<br>
 ### solusi
-1. 
+a. Pada soal ini saya menemukan permasalahan yaitu output yang keluar yaitu
+```
+West95
+```
 
 ## Soal 2
 
