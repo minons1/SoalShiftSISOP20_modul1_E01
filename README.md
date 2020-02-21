@@ -14,9 +14,9 @@ sedikit berdasarkan hasil poin a</br>
 sedikit berdasarkan 2 negara bagian &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(state) hasil poin b</br></br>
 Whits memohon kepada kalian yang sudah jago mengolah data untuk mengerjakan
 laporan tersebut.
-*Gunakan Awk dan Command pendukung<br><br>
+*Gunakan Awk dan Command pendukung<br>
 ### solusi
-
+1. 
 
 ## Soal 2
 
@@ -40,6 +40,29 @@ nama file bisa kembali.
 <br><br>
 HINT: enkripsi yang digunakan adalah caesar cipher.
 *Gunakan Bash Script
+
+### solusi
+a. Generate password
+```
+pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 28 | head -n 1)
+```
+b. Memasukkan password ke file
+```
+echo $pass > $filename.txt
+```
+c. enkripsi nama file
+```
+hour=$(date +"%H")
+hour=$((hour))
+
+pass=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 28 | head -n 1)
+lower=abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz
+upper=ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+filename=$1
+filename=$(echo $filename | tr "${lower:0:26}" "${lower:$hour:26}" | tr "${upper:0:26}" "${upper:$hour:26}")
+```
+
 
 ## Soal 3
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 tahun telah berlalu sejak pencampakan hati Kusuma. Akankah sang pujaan hati
