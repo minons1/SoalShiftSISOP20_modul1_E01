@@ -141,4 +141,16 @@ ekstensi ".log.bak". Hint : Gunakan wget.log untuk membuat location.log yang isi
 merupakan hasil dari grep "Location".
 <br>*Gunakan Bash, Awk dan Crontab
 
-a. 
+a. mendownload 28 gambar dengan penamaan pdkt_kusuma_@ dan buat log
+```
+for ((i=1;i<=28;i++))
+do
+	wget -a wget.log https://loremflickr.com/320/240/cat
+	mv "cat" "pdkt_kusuma_$i"
+done
+```
+b. Melakukan crontab
+```
+5 6-23/8 * * 0-5 /home/salim/praktikum/test/soal3.sh
+
+```
