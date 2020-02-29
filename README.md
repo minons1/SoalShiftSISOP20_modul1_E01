@@ -16,10 +16,35 @@ Whits memohon kepada kalian yang sudah jago mengolah data untuk mengerjakan
 laporan tersebut.
 *Gunakan Awk dan Command pendukung<br>
 ### solusi
-a. Pada soal ini saya menemukan permasalahan yaitu output yang keluar yaitu
+a. Menampilkan region yang punya keuntungan terendah
 ```
 West95
 ```
+--revisi<br>
+Asumsi yang digunakan sebelum revisi salah yaitu mencari 1 nilai terkecil dari keseluruhan dataset dan pada revisi ini menggunakan asumsi total tiap region
+```
+satu=$(awk -F'\t' '{sum[$13]+=$21} END {for (i in sum) print i }' dataset.tsv | sort -g | head -n1)
+
+```
+menjumlahkan kolom 21 berdasar baris 13 nya jika sudah di sort dan ditampilkan nilai tertingginya
+
+b. Menampilkan 2 state yang punya keuntungan terendah berdasar hasil a
+```
+dua=$(awk -v satu=$satu -F'\t' '{if ($13==satu) sum[$11]+=$21;} END {for (i in sum) print i }' dataset.tsv | sort -g | head -n2)
+
+```
+Caranya sama hanya diberi keadaan hanya menjumlahkan berdasar hasil nomor a
+c. Menampilkan 10 barang yang laku keuntungannya paling rendah berdasar hasil b
+```
+dua=($(echo $dua | tr " " "\n"))
+for i in "${dua[@]}"
+do
+	echo $i
+	awk -v dua=$i -F'\t' 'BEGIN {print dua} {if($11==dua) sum[$17]+=$21;} END {for (i in sum) print i}' dataset.tsv | sort -g | head -n10
+	echo " "
+done
+```
+karena hasil ke-b disimpan dalam satu string yang dipisah oleh spasi maka harus dipisah menggunakan tr dan variable dua menjadi array maka harus di lakukan loop dan  mencari 10 barang yang keuntungan terendah dengan kondisi hasil nomer b
 
 ## Soal 2
 
@@ -65,7 +90,25 @@ upper=ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ
 filename=$1
 filename=$(echo $filename | tr "${lower:0:26}" "${lower:$hour:26}" | tr "${upper:0:26}" "${upper:$hour:26}")
 ```
+--Revisi
+d. dekripsi nama file
+```
+#!/bin/bash
 
+hourMake=$(date -r $1 +"%H")
+hourMake=$((hourMake))
+
+filename=$1
+filename=$(echo "${filename%.*}")
+
+lower=abcdefghijklmnopqrstuvwxyz
+upper=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+
+filename=$(echo $filename | tr "${lower:$hourMake:26}" "${lower:0:26}" | tr "${upper:$hourMake:26}" "${upper:0:26}")
+
+mv $1 $filename.txt
+```
+Perbedaan antara enkripsi dan dekripsi yaitu pada bagian  tr "${lower:0:26}" "${lower:$hour:26}" dan tr "${lower:$hourMake:26}" "${lower:0:26}" jika enkripsi 0 - $hour dan jika dekripsi $hourMake - 0
 
 ## Soal 3
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 tahun telah berlalu sejak pencampakan hati Kusuma. Akankah sang pujaan hati
@@ -97,3 +140,5 @@ Setelah tidak ada gambar di current directory, maka lakukan backup seluruh log m
 ekstensi ".log.bak". Hint : Gunakan wget.log untuk membuat location.log yang isinya
 merupakan hasil dari grep "Location".
 <br>*Gunakan Bash, Awk dan Crontab
+
+a. 
